@@ -22,7 +22,7 @@ fillFormFields();
 
 const onFormFieldInput = event => {
   const fieldName = event.target.name;
-  const fieldValue = event.target.value;
+  const fieldValue = event.target.value.trim();
 
   formData[fieldName] = fieldValue;
   localStorage.setItem(`feedback-form-data`, JSON.stringify(formData));
@@ -31,8 +31,14 @@ const onFormFieldInput = event => {
 const onFeedbackFormSubmit = event => {
   event.preventDefault();
 
+  if (formData.email.trim() === `` || formData.message.trim() === ``) {
+    alert(`Fill please all fields!`);
+    return;
+  }
+
   event.target.reset();
   localStorage.removeItem(`feedback-form-data`);
+  formData = { email: '', message: '' };
 };
 
 feedbackFormEl.addEventListener(`input`, onFormFieldInput);
